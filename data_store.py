@@ -14,14 +14,14 @@ class Item:
 		self.address = [0 for i in range(len(address_mapping))]
 
 def generate_csv(name):
-	if name not in csv.keys:
+	if name not in csv.keys():
 		csv_new = None
 		if os.path.isfile(name):
 			csv_new = open((name + '.csv'), 'a')
 			csv_new.write('\n')
 		else:
 			csv_new = open((name + '.csv'), 'w')
-			csv_new.write('Week, Quantity, Amount, ADDRESSLIST\n')
+			csv_new.write('Week, Quantity, Amount, ADDRESSLIST\n') # ADDRESSLIST to be implemented
 		csv[name] = csv_new
 		return 0
 	return -1
