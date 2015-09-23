@@ -12,6 +12,7 @@ list_address = ["andheri", "jvlr", "lokhandwala", "oshiwara", "vile parle", "mal
 name_address = ['C','C','C','C','C','A','A','A','A','B','D','D','D','I','I','I','E','E','E','E','E','F','F', 'F', 'H','H','H','H', 'J', 'G', 'G','G','G','L','L', 'J']
 
 other_item = []
+other_address = []
 
 def item_clustering(item):
 	item = item.lower()
@@ -41,5 +42,9 @@ def address_clustering(address):
 
 	address = ' '.join(address.split())
 
-	if address in list_address:
-		return name_address[list_address.index(address)]
+	for ad in address.split(" "):
+		if ad in list_address:
+			return name_address[list_address.index(address)]
+
+	other_address.append()
+	return 'others'
