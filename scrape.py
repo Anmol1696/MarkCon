@@ -32,7 +32,7 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 	dates = []
 
 	for page in range(pages):
-		time.sleep(1)
+		time.sleep(2)
 		action = driver.find_elements_by_xpath(xpaths['action'])
 
 		for i in range(2,12):
@@ -42,8 +42,9 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 			time.sleep(2)
 
 			row = driver.find_elements_by_xpath("//tr")
-
-			date = row[i-1].text.split(" ")[-2].split("\n")[1]
+			time.sleep(2)
+			date = row[(i-1)].text.split(" ")[-2].split("\n")[1]
+			print date
 			address = row[len(row) - 11].text
 			item.append(row[len(row) - 4].text)
 
