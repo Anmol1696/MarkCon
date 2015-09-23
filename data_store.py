@@ -64,5 +64,5 @@ def load_data(week):
 		csv[name].write(str(week) + ', ' + str(item.quantity) + ', ' + str(item.amount) + ', ' + str(item.address[0]) + ', ' + \
 						str(item.address[1]) + ', ' + str(item.address[2]) + ', ' + str(item.address[3]) + ', ' + str(item.address[4]) + ', ' + \
 						str(item.address[5]) + ', ' + str(item.address[6]) + ', ' + str(item.address[7])  + ', ' + str(item.address[8]) + ', ' + \
-						str(item.address[9]) + ', ' + str(item.address[10]) + ', ' + str(item.address[11]) + ', ' + '\n')
+						str(item.address[9]) + ', ' + str(item.address[10]) + ', ' + str(item.address[11]) + '\n')
 	items = {}
