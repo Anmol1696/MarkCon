@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 from extracting import *
+import data_store
 
 def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 	baseurl = 'http://login.petpooja.com/users/login'
@@ -27,7 +28,7 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 
 	driver.get("http://login.petpooja.com/orders/order_list/all")
 
-	pages = 2
+	pages = 5
 
 	dates = []
 
@@ -36,7 +37,7 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 		action = driver.find_elements_by_xpath(xpaths['action'])
 
 		for i in range(2,12):
-			num = 1
+			num = 0
 			item = []
 			action[i].click()
 			time.sleep(2)
@@ -44,19 +45,48 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 			row = driver.find_elements_by_xpath("//tr")
 			time.sleep(2)
 			date = row[(i-1)].text.split(" ")[-2].split("\n")[1]
-			print date
-			address = row[len(row) - 11].text
-			item.append(row[len(row) - 4].text)
+			# print date
+			# address = row[len(row) - 11].text
+			# print address
+			# item.append(row[len(row) - 4].text)
 
-			while row[len(row) - 4 + num].text[0] != ' ':
-				item.append(row[len(row) - 11 + num].text)
-				num += 1
-			print page
+			try:
+				while row[len(row) - 4 + num].text[0] != ' ':
+					item.append(str(row[len(row) - 4 + num].text))
+					num -= 1
+					time.sleep(0.5)
+			except:
+				pass
 
-			extract(address, item, date)
+			final = find(item)
+
+			#print page
+			#print final[0]
+			#print final[1]
+
+			extract(final[1], final[0], date)
 
 		time.sleep(0.5)
 		driver.find_elements_by_xpath(xpaths['next'])[0].click()
 
+def find(total):
+	item = []
+	for li in total:
+		line = li.split(" ")
+		for word in line:
+			if str(word) == 'Address':
+				address = line
+			if str(word) == 'Unit':
+				num = total.index(li)
+	for x in range(num):
+		if total[x].split(" ")[0] != 'Discount':
+			item.append(total[x])
+	address = ' '.join(address)
+	if len(item) == 0:
+		print 'wrong'
+	return (item, address)
+
+
 if __name__ == "__main__":
 	print web_scrape()
+	print other_list()

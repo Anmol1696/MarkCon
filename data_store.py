@@ -2,19 +2,26 @@ import os.path
 import datetime
 from clustering import *
 
+# def init():
+# 	global csv
+# 	global items
+# 	global address_mapping
 csv = {}
-item_list = ['3 day fix', '5 day fix vegetable', 'jolly weekday detox']
 items = {}
-address_mapping = {"andheri":1, "jvlr":2, "lokhandwala":3}
+address_mapping = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'L', 'O']
 
 class Item:
-	def __init__(name):
+	def __init__(self, name):
 		self.name = name
 		self.quantity = 0
 		self.amount = 0
-		self.address = [0 for i in range(len(address_mapping))]
+		self.address = [0 for i in range(12)] # A B C D E F G H I J  L  O
+											  # 0 1 2 3 4 5 6 7 8 9 10 11
 
 def generate_csv(name):
+	# global csv
+	# global items
+	# global address_mapping
 	if name not in csv.keys():
 		csv_new = None
 		if os.path.isfile(name):
@@ -22,27 +29,40 @@ def generate_csv(name):
 			csv_new.write('\n')
 		else:
 			csv_new = open((name + '.csv'), 'w')
-			csv_new.write('Week, Quantity, Amount, ADDRESSLIST\n') # ADDRESSLIST to be implemented
+			csv_new.write('Week, Quantity, Amount, A, B, C, D, E, F, G, H, I, J, L, O\n') # ADDRESSLIST to be implemented
 		csv[name] = csv_new
 		return 0
 	return -1
 
 def close_csv():
+	# global csv
+	# global items
+	# global address_mapping
 	for key in csv.keys():
 		csv[key].close()
 
 def add_data(item, quantity, amount, address):
-	if item in item_list:
-		if item not in items.keys():
-			items[item] = Item(item)
-		items[item].quantity += quantity
-		items[item].amount += amount
-		items[item].address[address_mapping[address]] += 1
+	# global csv
+	# global items
+	# global address_mapping
+	item = item_clustering(item)
+	address = address_clustering(address)
+	if item not in items.keys():
+		items[item] = Item(item)
+	items[item].quantity += quantity
+	items[item].amount += amount
+	items[item].address[address_mapping.index(address)] += quantity
 
 def load_data(week):
-	if item not in csv.keys() and item in item_list:
-		generate_csv(item)
-	for name, item in items:
+	global csv
+	global items
+	# global address_mapping
+	for name, item in items.iteritems():
 		# Need to implement address storage after info is received
-		csv[name].write(str(week) + ', ' + str(item.quantity) + ', ' + str(item.amount) + ', ' + str(item.address) + '\n')
+		if name not in csv.keys():
+			generate_csv(name)
+		csv[name].write(str(week) + ', ' + str(item.quantity) + ', ' + str(item.amount) + ', ' + str(item.address[0]) + ', ' + \
+						str(item.address[1]) + ', ' + str(item.address[2]) + ', ' + str(item.address[3]) + ', ' + str(item.address[4]) + ', ' + \
+						str(item.address[5]) + ', ' + str(item.address[6]) + ', ' + str(item.address[7])  + ', ' + str(item.address[8]) + ', ' + \
+						str(item.address[9]) + ', ' + str(item.address[10]) + ', ' + str(item.address[11]) + ', ' + '\n')
 	items = {}
