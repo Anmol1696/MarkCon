@@ -5,7 +5,6 @@ csv = {}
 item_list = ['3 day fix', '5 day fix vegetable', 'jolly weekday detox']
 items = {}
 address_mapping = {"andheri":1, "jvlr":2, "lokhandwala":3}
-ref_week = 1
 
 class Item:
 	def __init__(name):
@@ -46,19 +45,3 @@ def load_data(week):
 		# Need to implement address storage after info is received
 		csv[name].write(str(week) + ', ' + str(item.quantity) + ', ' + str(item.amount) + ', ' + str(item.address) + '\n')
 	items = {}
-
-def data_log(item, quantity, amount, address, date):
-	date = str(date).split("-")
-	if int(date[0]) == 2015:
-		if int(date[1]) == 12 and int(date[2] > 28):
-			add = 24
-	else: add = -28
-
-	week = datetime(date[0], date[1], date[2]).isocalendar()[1] + add
-
-	if week > ref_week:
-		load_data(week)
-		ref_week = week
-	else: pass
-
-	add_data(item, quantity, amount, address)
