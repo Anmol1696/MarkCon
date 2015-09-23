@@ -2,7 +2,6 @@ from data_store import *
 ref_week = [63]
 
 def extract(address, item_s, date):
-	print date
 	address = ' '.join(str(address).split(" ")[2:-4])
 
 	for item_a in item_s:
@@ -20,10 +19,8 @@ def extract(address, item_s, date):
 
 def date_week(date):
 	date = str(date).split("-")
-	print date
 	if int(date[0]) == 2015 or (int(date[1]) == 12 and int(date[2] > 28)):
 			add = 24
 	else: add = -28
-	print int(date[0])
 	week = datetime.date(int(date[0]), int(date[1]), int(date[2])).isocalendar()[1] + add
 	return week

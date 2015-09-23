@@ -28,7 +28,7 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 
 	driver.get("http://login.petpooja.com/orders/order_list/all")
 
-	pages = 5
+	pages = 34
 
 	dates = []
 
@@ -44,29 +44,22 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 
 			row = driver.find_elements_by_xpath("//tr")
 			time.sleep(2)
-			date = row[(i-1)].text.split(" ")[-2].split("\n")[1]
-			# print date
-			# address = row[len(row) - 11].text
-			# print address
-			# item.append(row[len(row) - 4].text)
+			#print row[i-1].text.split(" ")[-2]
+			date = row[i-1].text.split(" ")[-2].split("\n")[-1]
 
 			try:
 				while row[len(row) - 4 + num].text[0] != ' ':
 					item.append(str(row[len(row) - 4 + num].text))
 					num -= 1
-					time.sleep(0.5)
 			except:
 				pass
+			time.sleep(2)
 
 			final = find(item)
-
-			#print page
-			#print final[0]
-			#print final[1]
-
+			print page
 			extract(final[1], final[0], date)
 
-		time.sleep(0.5)
+		time.sleep(2)
 		driver.find_elements_by_xpath(xpaths['next'])[0].click()
 
 def find(total):
