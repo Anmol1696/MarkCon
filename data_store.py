@@ -1,5 +1,6 @@
 import os.path
 import datetime
+from clustering import *
 
 csv = {}
 item_list = ['3 day fix', '5 day fix vegetable', 'jolly weekday detox']
