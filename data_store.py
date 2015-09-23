@@ -47,6 +47,7 @@ def add_data(item, quantity, amount, address):
 	# global address_mapping
 	item = item_clustering(item)
 	address = address_clustering(address)
+	print item
 	if item not in items.keys():
 		items[item] = Item(item)
 	items[item].quantity += quantity
@@ -54,10 +55,11 @@ def add_data(item, quantity, amount, address):
 	items[item].address[address_mapping.index(address)] += quantity
 
 def load_data(week):
+	# global address_mapping
 	global csv
 	global items
-	# global address_mapping
-	for name, item in items.iteritems():
+	print '----------------' + str(week)
+	for name, item in items.items():
 		# Need to implement address storage after info is received
 		if name not in csv.keys():
 			generate_csv(name)

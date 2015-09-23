@@ -1,5 +1,5 @@
 from data_store import *
-ref_week = [63]
+ref_week = [62]
 
 def extract(address, item_s, date):
 	address = ' '.join(str(address).split(" ")[2:-4])

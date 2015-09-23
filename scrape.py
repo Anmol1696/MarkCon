@@ -1,7 +1,7 @@
 from selenium import webdriver
 import time
 from extracting import *
-import data_store
+from data_store import *
 
 def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 	baseurl = 'http://login.petpooja.com/users/login'
@@ -25,12 +25,16 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 	except:
 		print 'Not working'
 		return 0
-
+	time.sleep(1)
 	driver.get("http://login.petpooja.com/orders/order_list/all")
 
-	pages = 34
+	pages = 95
 
 	dates = []
+
+	# for x in range(pages):
+	# 	time.sleep(1)
+	# 	driver.find_elements_by_xpath(xpaths['next'])[0].click()
 
 	for page in range(pages):
 		time.sleep(2)
@@ -51,8 +55,10 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 				while row[len(row) - 4 + num].text[0] != ' ':
 					item.append(str(row[len(row) - 4 + num].text))
 					num -= 1
+					time.sleep(0.5)
 			except:
 				pass
+
 			time.sleep(2)
 
 			final = find(item)
