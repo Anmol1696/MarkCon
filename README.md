@@ -1,2 +1,2 @@
-# facebook_client
-Grabs the information of the people how have liked a page
+# Data scraping
+Forming the data set after scraping with selenium
