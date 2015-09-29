@@ -1,2 +1,2 @@
 # Data scraping
-Forming the data set after scraping with selenium
+Getting the information of the people and Scraping the Facebook page using Selenium and PhantomJS
