@@ -11,11 +11,13 @@ def open_page(page_url = 'https://www.facebook.com/juicifix'):
 
 def pagelikes():
 	driver = open_page()
-	time.sleep(5)
+	time.sleep(3)
+
+	num_scroll = 2
 	like_links = []
 	profile_links = []
 
-	for _ in range(2):
+	for _ in range(num_scroll):
 		driver.find_element_by_xpath('//div').send_keys(Keys.PAGE_DOWN)
 		time.sleep(1)
 
@@ -24,8 +26,8 @@ def pagelikes():
 			like_links.append(element_like.get_attribute('href'))
 
 	for element_like in driver.find_elements_by_xpath("//div[@class = 'UFILikeSentenceText']//a[@class='profileLink']"):
-		if element_like.get_attribute('href') not in profile_links:
-			profile_links.append(element_like.get_attribute('href'))
+		if element_like.get_attribute('href').split('?')[0] not in profile_links:
+			profile_links.append(element_like.get_attribute('href').split('?')[0])
 
 	profile_from_links = get_profile(driver, like_links[2:])
 	for profile in profile_from_links:
@@ -41,8 +43,8 @@ def get_profile(driver, like_links):
 		time.sleep(3)
 		temp = driver.find_elements_by_xpath("//li[@class = 'fbProfileBrowserListItem']//div[@class = 'fsl fwb fcb']/a")
 		for element in temp:
-			if element.get_attribute('href') not in profile_links:
-				profile_links.append(element.get_attribute('href'))
+			if element.get_attribute('href').split('?')[0] not in profile_links:
+				profile_links.append(element.get_attribute('href').split('?')[0])
 	return profile_links
 
 
