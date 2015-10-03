@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from login import web_driver
+from profile import main_profile
 import time
+
 
 def open_page(page_url = 'https://www.facebook.com/juicifix'):
 	driver = web_driver()
@@ -34,7 +36,7 @@ def pagelikes():
 		if profile not in profile_links:
 			profile_links.append(profile)
 
-	return profile_links[1:]
+	return (profile_links[1:], driver)
 
 def get_profile(driver, like_links):
 	profile_links = []
@@ -47,6 +49,9 @@ def get_profile(driver, like_links):
 				profile_links.append(element.get_attribute('href').split('?')[0])
 	return profile_links
 
+def main():
+	temp = pagelikes()
+	main_profile(temp[0], temp[1])
 
 if __name__ == '__main__':
-	print pagelikes()
+	main()
