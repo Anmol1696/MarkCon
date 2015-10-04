@@ -10,7 +10,9 @@ xpaths = {
 	'sex' : "//div[@class = 'lfloat _ohe']",
 	'lives' : "//ul[@class = 'uiList _1pi3 _4kg _6-h _703 _4ks']/li[3]",
 	'job' : "//ul[@class = 'uiList _1pi3 _4kg _6-h _703 _4ks']/li[1]",
-	'education' : "//ul[@class = 'uiList _1pi3 _4kg _6-h _703 _4ks']/li[2]"
+	'education' : "//ul[@class = 'uiList _1pi3 _4kg _6-h _703 _4ks']/li[2]",
+	'similar_pages' : "//li[@class = '_5rz _5k3a _5rz3 _1v6c']",
+	'similar_pages_href' : "//li[@class = '_5rz _5k3a _5rz3 _1v6c']//a[@class = '_8o _8t lfloat _ohe']"
 }
 
 class Info:
@@ -24,13 +26,19 @@ class Info:
 
 def main_profile(profile_links, driver):
 	csv_form()
+	similar_pages = []
 
 	for link in profile_links:
-		single_profile(link, driver)
+		pages = single_profile(link, driver)
+		for page in pages:
+			if page not in similar_pages:
+				similar_pages.append(page)
+				similar_pages_csv(page)
 		time.sleep(1)
 
 def single_profile(url, driver):
 	driver.get(url + u'/about')
+	time.sleep(1)
 	person = Info(url)
 	person.name = unicodedata.normalize('NFKD', getting_name(driver)).encode('ascii','ignore').replace(',','-')
 	person.sex = unicodedata.normalize('NFKD', getting_sex(driver)).encode('ascii','ignore').replace(',','-')
@@ -40,6 +48,11 @@ def single_profile(url, driver):
 
 	add_info(person)
 
+	pages = getting_liked_pages(driver, url)
+	time.sleep(1)
+
+	return pages
+
 def getting_name(driver):
 	return driver.find_element_by_xpath(xpaths['name']).text
 
@@ -47,7 +60,7 @@ def getting_sex(driver):
 	try:
 		text = str(driver.find_element_by_xpath(xpaths['sex']).text)
 		print text
-	except: return '-'
+	except: return u'-'
 
 	if " him " in text or " he " in text:
 		return u'M'
@@ -70,6 +83,29 @@ def getting_job_education(driver, var):
 	if 'No' not in job_text:
 		return job_text
 	else: return u'-'
+
+def getting_liked_pages(driver, base_url):
+	pages = []
+	url = base_url + "/likes"
+	driver.get(url)
+	time.sleep(1)
+	pages_list = driver.find_elements_by_xpath(xpaths['similar_pages'])
+	a_list = driver.find_elements_by_xpath(xpaths['similar_pages_href'])
+
+	for page in pages_list:
+		if checking_similar_page(unicodedata.normalize('NFKD', page.text).encode('ascii','ignore').replace(',','-')):
+			page_url = a_list[pages_list.index(page)].get_attribute('href').split("?")[0]
+			if page_url not in pages:
+				pages.append(page_url)
+
+	return pages
+
+def checking_similar_page(text):
+	data_set = ['food', 'health', 'juice', 'smoothie']
+	for data in data_set:
+		if data in str(text).lower():
+			return True
+	return False
 
 if __name__ == "__main__":
 	single_profile()
