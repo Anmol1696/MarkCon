@@ -15,7 +15,7 @@ def pagelikes():
 	driver = open_page()
 	time.sleep(3)
 
-	num_scroll = 2
+	num_scroll = 200
 	like_links = []
 	profile_links = []
 
