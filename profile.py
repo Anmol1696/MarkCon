@@ -29,12 +29,16 @@ def main_profile(profile_links, driver):
 	similar_pages = []
 
 	for link in profile_links:
-		pages = single_profile(link, driver)
-		for page in pages:
-			if page not in similar_pages:
-				similar_pages.append(page)
-				similar_pages_csv(page)
-		time.sleep(1)
+		try:
+			pages = single_profile(link, driver)
+			for page in pages:
+				if page not in similar_pages:
+					similar_pages.append(page)
+					similar_pages_csv(page)
+			time.sleep(1)
+		except:
+			print 'Wrong here'
+			pass
 
 def single_profile(url, driver):
 	driver.get(url + u'/about')
