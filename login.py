@@ -4,7 +4,9 @@ import time
 
 def web_driver(email = 'anmol.y@zabbed.com', password = 'marcon123'):
 	baseurl = 'https://www.facebook.com/login'
-	driver = webdriver.Firefox()
+	profile = webdriver.FirefoxProfile()
+	profile.set_preference("network.proxy.type", 0)
+	driver = webdriver.Firefox(profile)
 	driver.get(baseurl)
 
 	xpaths = {
@@ -21,3 +23,6 @@ def web_driver(email = 'anmol.y@zabbed.com', password = 'marcon123'):
 		return 0
 
 	return driver
+
+if __name__ == "__main__":
+	web_driver()
