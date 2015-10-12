@@ -1,14 +1,21 @@
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import time
+import socket
 from extracting import *
 from data_store import *
 
 def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
+	socket.setdefaulttimeout(20)
+
 	baseurl = 'http://login.petpooja.com/users/login'
 	profile = webdriver.FirefoxProfile()
 	profile.set_preference("network.proxy.type", 0)
 	driver = webdriver.Firefox(profile)
-	driver.get(baseurl)
+	try:
+		driver.get(baseurl)
+	except socket.timeout:
+		driver.find_element_by_xpath('//div').send_keys(Keys.ESCAPE)
 
 	xpaths = {
 		'username' : "//input[@name = 'email']",
@@ -26,7 +33,11 @@ def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
 		print 'Not working'
 		return 0
 	time.sleep(1)
-	driver.get("http://login.petpooja.com/orders/order_list/all")
+
+	try:
+		driver.get("http://login.petpooja.com/orders/order_list/all")
+	except socket.timeout:
+		driver.find_element_by_xpath('//div').send_keys(Keys.ESCAPE)
 
 	pages = 95
 
