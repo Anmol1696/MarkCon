@@ -10,16 +10,21 @@ def main():
 
 	f = open('new_number.csv', 'a')
 	for line in lines:
-		number = line[:-1].split(",")[1]
+		if '"' not in line[:-1]:
+			number = line[:-1].split(",")[1]
+		elif '"' in line[:-1]:
+			number = ''.join(line[:-1].split('"')[1].split(",")).split('.')[0]
+
 		if type(number) is str:
 			try:
 				number = int(number)
 			except:
-				pass
+				print number
+		else: print number
 		if type(number) is int and int(str(number)[0]) > 6 and str(number) not in numbers:
 			if len(str(number)) >= 10:
 				if len(str(number)) == 12:
-					number = int(str(number)[2:])	
+					number = int(str(number)[2:])
 				numbers.append(str(number))
 				f.write(str(number) + ',\n')
 
