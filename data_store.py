@@ -35,16 +35,10 @@ def generate_csv(name):
 	return -1
 
 def close_csv():
-	# global csv
-	# global items
-	# global address_mapping
 	for key in csv.keys():
 		csv[key].close()
 
 def add_data(item, quantity, amount, address):
-	# global csv
-	# global items
-	# global address_mapping
 	item = item_clustering(item)
 	address = address_clustering(address)
 	print item
@@ -55,7 +49,6 @@ def add_data(item, quantity, amount, address):
 	items[item].address[address_mapping.index(address)] += quantity
 
 def load_data(week):
-	# global address_mapping
 	global csv
 	global items
 	print '----------------' + str(week)
