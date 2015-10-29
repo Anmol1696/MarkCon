@@ -4,7 +4,7 @@ from login import web_driver
 from profile import main_profile
 import time
 
-def open_page(page_url = 'http://www.xombom.com/mobile/vodafone-mobile-numbers/mumbai-metro/'):
+def open_page_1(page_url = 'http://www.xombom.com/mobile/vodafone-mobile-numbers/mumbai-metro/'):
 	profile = webdriver.FirefoxProfile()
 	profile.set_preference("network.proxy.type", 0)
 	driver = webdriver.Firefox(profile)
@@ -39,7 +39,7 @@ def get_final_number(driver, url):
 
 def get_base_numbers():
 	numbers = []
-	driver = open_page()
+	driver = open_page_1()
 	# print numbers
  	return get_well(driver, None)
 
@@ -60,16 +60,15 @@ def get_numbers():
 	for series_num in base[1]:
 		numbers.append(get_final_number(driver, series_num))
 		try:
-			# open_page(get_final_number(driver, series_num), driver)
-			profile = get_profile_id(open_page(get_final_number(driver, series_num), driver)[1])[0]
+			# open_page_1(get_final_number(driver, series_num), driver)
+			profile = get_profile_id(open_page_1(get_final_number(driver, series_num), driver)[1])[0]
 			f.write(profile + '\n')
 		except:
 			pass
 	f.close()
-
 	return numbers
 
-def open_page(number, driver):
+def open_page_1(number, driver):
 	# driver = web_driver()
 	page_url = "https://www.facebook.com/search/str/%s/keywords_users" % (str(number))
 	driver.get(page_url)
@@ -84,7 +83,5 @@ def get_profile_id(driver):
 	profile = driver.find_element_by_xpath(xpaths['profile_id']).get_attribute('href')
 	return (profile, driver)
 
-def find_profiles
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
+	print get_numbers()
