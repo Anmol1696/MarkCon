@@ -60,5 +60,13 @@ def get_numbers():
 		print numbers
 	return numbers
 
+def check_true_caller(driver, number):
+	facebook_numbers = []
+	driver.get('https://www.truecaller.com/in/' + str(number))
+	details = driver.find_element_by_xpath("//div[@class = 'detailView__list']").text
+
+	if '@' in details:
+		facebook_numbers.append(number)
+
 if __name__ == '__main__':
 	print get_numbers()
