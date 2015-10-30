@@ -33,8 +33,7 @@ def get_final_number(driver, url):
 	well = driver.find_elements_by_xpath("//div[@class = 'well']//a")
 
 	for a in well:
-		if check_true_caller(driver, a.text):
-			numbers.append(a.text)
+		numbers.append(a.text)
 	return numbers[0]
 
 def get_base_numbers():
@@ -56,24 +55,26 @@ def get_numbers():
 	numbers = []
 	base = get_series()
 	driver = base[0]
-	f.open('profiles_people.txt', 'a')
+	f = open('profiles_people.txt', 'a')
+	face_driver = web_driver()
 	for series_num in base[1]:
 		numbers.append(get_final_number(driver, series_num))
 		try:
 			# open_page_1(get_final_number(driver, series_num), driver)
-			profile = get_profile_id(open_page_1(get_final_number(driver, series_num), driver)[1])[0]
+			page_open = open_page(get_final_number(driver, series_num), face_driver)
+			profile = get_profile_id(page_open[1])[0]
 			f.write(profile + '\n')
 		except:
 			pass
 	f.close()
 	return numbers
 
-def open_page_1(number, driver):
+def open_page(number, face_driver):
 	# driver = web_driver()
 	page_url = "https://www.facebook.com/search/str/%s/keywords_users" % (str(number))
-	driver.get(page_url)
+	face_driver.get(page_url)
 	time.sleep(2)
-	return driver
+	return face_driver
 
 def get_profile_id(driver):
 	xpaths = {
