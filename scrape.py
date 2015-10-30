@@ -5,7 +5,7 @@ import socket
 from extracting import *
 from data_store import *
 
-def web_scrape(username = "avrio@juicifix.com", password = "Juici12345!"):
+def web_scrape(username = "", password = ""):
 	socket.setdefaulttimeout(20)
 
 	baseurl = 'http://login.petpooja.com/users/login'
